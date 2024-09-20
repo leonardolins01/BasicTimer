@@ -16,8 +16,20 @@
 body {
     background-color: var(--color-bg);
     color: var(--color-txt);
+    display: grid;
+    height: 100vh;
 }
 
+main {
+    justify-self: center;
+    align-self: end;
+}
+
+footer {
+    justify-self: end;
+    align-self: end;
+    padding: 0 2rem 2rem 0;
+}
 
 img {
     width: 100%;
@@ -25,8 +37,8 @@ img {
 }
 
 button {
-    width: 30px;
-    height: 30px;
+    width: clamp(3.0rem, 2rem + 10vw, 6.0rem);
+    height: auto;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -38,11 +50,34 @@ button {
 
 .timer {
     color: var(--color-txt);
-    font-size: 8.8rem;
+    font-size: clamp(3rem, 4rem + 10vw, 8rem);
+    margin-bottom: 2rem;
+    width: clamp(10rem, 10rem + 30vw, 22.8rem);
+    height: auto;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.timer .minutes, .timer .seconds {
+    flex: 1;
+    text-align: center;
+}
+
+.timer .colon {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -5%);
 }
 
 .control {
     background-color: var(--color-bg-light);
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    gap: 3.2rem;
+    width: clamp(10rem, 10rem + 30vw, 22.8rem);
+    height: clamp(8rem, 5rem + 10vw, 10.8rem);
 }
