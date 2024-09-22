@@ -7,38 +7,50 @@ const Sound_OnBtn = document.querySelector('.sound_on');
 const Sound_OffBtn = document.querySelector('.sound_off');
 const DisplayMinutes = document.querySelector('.minutes');
 const DisplaySeconds = document.querySelector('.seconds');
-let Minutes;
-let Seconds;
+let Minutes = Number(DisplayMinutes.textContent);
+let Seconds = Number(DisplaySeconds.textContent);
+let TimerTimeOut
 
 import * as utils from './utils.js';
 
+
 function CountDown () {
-    setTimeout(
+    let M = Number(DisplayMinutes.textContent);
+    let S = Number(DisplaySeconds.textContent);
+    TimerTimeOut = setTimeout(
         function () {
-            if (Seconds == 0) {
-                Seconds = 59;
-                if (Minutes != 0) {
-                    Minutes = Minutes - 1;
-                }
-            }else {
-                Seconds = Seconds - 1;
-            }
-            Update();
-            if (Minutes == 0 && Seconds == 0) {
-                alert("Time is over");
+
+            if (M == 0 && S == 0) {
                 PlayBtn.classList.remove("hide");
                 PauseBtn.classList.add("hide");
                 StopBtn.classList.add("hide");
                 SetBtn.classList.remove("hide");
+                setTimeout( function () {
+                    alert("Time's up!");
+                }, 300)
                 return;
             }
+
+            if (S == 0) {
+                S = 59;
+                if (M != 0) {
+                    M = M - 1;
+                }
+            }else {
+                S = S - 1;
+            }
+
+            DisplayMinutes.textContent = Number(M);
+            DisplaySeconds.textContent = Number(S);
+
+            Update();
             CountDown();
         }, 1000)
 }
 
 function Update () {
-    DisplayMinutes.textContent = utils.FormatNumber(Minutes);
-    DisplaySeconds.textContent = utils.FormatNumber(Seconds);
+    DisplayMinutes.textContent = String(DisplayMinutes.textContent).padStart(2, '0');
+    DisplaySeconds.textContent = String(DisplaySeconds.textContent).padStart(2, '0');
 }
 
 
@@ -53,6 +65,7 @@ PlayBtn.addEventListener("click", () => {
 PauseBtn.addEventListener("click", () => {
     PlayBtn.classList.toggle("hide");
     PauseBtn.classList.toggle("hide");
+    clearTimeout(TimerTimeOut);
 })
 
 StopBtn.addEventListener("click", () => {
@@ -60,6 +73,18 @@ StopBtn.addEventListener("click", () => {
     PauseBtn.classList.add("hide");
     StopBtn.classList.add("hide");
     SetBtn.classList.remove("hide");
+    clearTimeout(TimerTimeOut);
+    DisplayMinutes.textContent = Minutes;
+    DisplaySeconds.textContent = Seconds;
+    Update();
+})
+
+SetBtn.addEventListener("click", () => {
+    Minutes = utils.InsertTime("minutes");
+    Seconds = utils.InsertTime("seconds");
+    DisplayMinutes.textContent = Minutes;
+    DisplaySeconds.textContent = Seconds;
+    Update();
 })
 
 Sound_OnBtn.addEventListener("click", () => {
@@ -70,10 +95,4 @@ Sound_OnBtn.addEventListener("click", () => {
 Sound_OffBtn.addEventListener("click", () => {
     Sound_OffBtn.classList.add("hide");
     Sound_OnBtn.classList.remove("hide");
-})
-
-SetBtn.addEventListener("click", () => {
-    Minutes = utils.InsertTime("minutes");
-    Seconds = utils.InsertTime("seconds");
-    Update();
 })

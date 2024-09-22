@@ -9,8 +9,7 @@ export function InsertTime(text) {
     }
 }
 
-export function FormatNumber(number) {
-    return number.toString().padStart(2, '0');
-}
+
+
 
 
