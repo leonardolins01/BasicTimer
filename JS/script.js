@@ -1,4 +1,4 @@
-
+﻿
 const PlayBtn = document.querySelector('.play');
 const PauseBtn = document.querySelector('.pause');
 const StopBtn = document.querySelector('.stop');
