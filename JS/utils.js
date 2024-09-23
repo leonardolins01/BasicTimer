@@ -8,8 +8,3 @@ export function InsertTime(text) {
         return n;
     }
 }
-
-
-
-
-

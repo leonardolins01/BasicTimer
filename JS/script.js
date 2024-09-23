@@ -9,10 +9,22 @@ const DisplayMinutes = document.querySelector('.minutes');
 const DisplaySeconds = document.querySelector('.seconds');
 let Minutes = Number(DisplayMinutes.textContent);
 let Seconds = Number(DisplaySeconds.textContent);
-let TimerTimeOut
+let TimerTimeOut;
 
 import * as utils from './utils.js';
+import {Controls} from './controls.js';
+import Sound from './sound.js';
 
+const sound = Sound();
+
+const controls = Controls ({
+    PlayBtn,
+    PauseBtn,
+    StopBtn,
+    SetBtn,
+    Sound_OnBtn,
+    Sound_OffBtn
+})
 
 function CountDown () {
     let M = Number(DisplayMinutes.textContent);
@@ -25,6 +37,7 @@ function CountDown () {
                 PauseBtn.classList.add("hide");
                 StopBtn.classList.add("hide");
                 SetBtn.classList.remove("hide");
+                sound.TimeEnd();
                 setTimeout( function () {
                     alert("Time's up!");
                 }, 300)
@@ -55,28 +68,24 @@ function Update () {
 
 
 PlayBtn.addEventListener("click", () => {
-    PlayBtn.classList.toggle("hide");
-    PauseBtn.classList.toggle("hide");
-    SetBtn.classList.add("hide");
-    StopBtn.classList.remove("hide");
+    controls.play();
     CountDown();
+    sound.pressButton();
 })
 
 PauseBtn.addEventListener("click", () => {
-    PlayBtn.classList.toggle("hide");
-    PauseBtn.classList.toggle("hide");
+    controls.pause();
     clearTimeout(TimerTimeOut);
+    sound.pressButton();
 })
 
 StopBtn.addEventListener("click", () => {
-    PlayBtn.classList.remove("hide");
-    PauseBtn.classList.add("hide");
-    StopBtn.classList.add("hide");
-    SetBtn.classList.remove("hide");
+    controls.stop();
     clearTimeout(TimerTimeOut);
     DisplayMinutes.textContent = Minutes;
     DisplaySeconds.textContent = Seconds;
     Update();
+    sound.pressButton();
 })
 
 SetBtn.addEventListener("click", () => {
@@ -88,11 +97,11 @@ SetBtn.addEventListener("click", () => {
 })
 
 Sound_OnBtn.addEventListener("click", () => {
-    Sound_OffBtn.classList.remove("hide");
-    Sound_OnBtn.classList.add("hide");
+    controls.soundOn();
+    sound.bgAudio.pause();
 })
 
 Sound_OffBtn.addEventListener("click", () => {
-    Sound_OffBtn.classList.add("hide");
-    Sound_OnBtn.classList.remove("hide");
+    controls.soundOff();
+    sound.bgAudio.play();
 })
